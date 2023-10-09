@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="../../resources/css/app.css" rel="stylesheet"/>
-    <title>User</title>
+    <link href="../../css/app.css" rel="stylesheet"/>
+    <title>Admin</title>
     <style>
         table {
             font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
@@ -90,7 +90,7 @@
 {{--</svg>--}}
 <main>
     <div class="m-6 mb-12 rounded-xl p-6 shadow-xl sm:p-10">
-        <h1 class="text-3xl font-semibold">User</h1>
+        <h1 class="text-3xl font-semibold">Admin</h1>
         <div class="text">
             <svg class="mx-auto h-12 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                  stroke-width="1.5" stroke="currentColor">
@@ -105,23 +105,32 @@
     <div class="text">
         <table>
             <tr>
-                <th>Doctor id</th>
+                <th>ID</th>
                 <th>Date</th>
                 <th>Time</th>
             </tr>
             <pre>
                 @foreach($records as $record)
             <tr>
-
-                <td>{{$record['doctor_id']}}</td>
+                <td>{{$record['id']}}</td>
                 <td>{{$record['date']}}</td>
                 <td>{{$record['time']}}</td>
-                <td><a href="{{route('сhooseRecord', ['id' => auth()->user()->id, 'user_id' => $record['id']])}}">Choose</a></td>
+                <td><a>Update</a></td>
+                <td><a href="{{route('deleteRecord', ['id' => $record['id']])}}">Delete</a></td>
+                {{$record['doctor_id']}}
                 @endforeach
             </tr>
         </pre>
         </table>
-
+        <h1>Add new Record</h1>
+        <form action="{{route('createRecord')}}" method="post">
+            @csrf
+            <input type="hidden" name="id" value="{{$id}}">
+            <p>Date</p>
+            <input type="date" name="date">
+            <p>Time</p>
+            <input type="time" name="time"><br>
+            <button type="submit">add</button>
         </form>
     </div>
 </main>

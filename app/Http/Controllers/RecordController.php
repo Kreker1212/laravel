@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Doctor;
 use App\Models\Record;
 use Illuminate\Http\Request;
 
@@ -12,13 +11,15 @@ class RecordController extends Controller
     public function viewAdminRecords($id)
     {
         $records = Record::where('doctor_id', $id)->get();
-        return view('adminRecords', ['records' => $records, 'id' => $id]);
+        return view('admin.admin_records',
+            ['records' => $records, 'id' => $id]);
     }
 
     public function viewUserRecords()
     {
-        $records = Record::where('record', 0)->get();
-        return view('userRecords',['records' => $records]);
+        $records = Record::where('user_id', 0)->get();
+        return view('user.user_records',
+            ['records' => $records]);
     }
 
     public function createRecord(Request $request)
@@ -40,7 +41,7 @@ class RecordController extends Controller
         return redirect(route('admin'));
     }
 
-    public function  сhooseRecord($id, $user_id)
+    public function chooseRecord($user_id, $id)
     {
         Record::find($id)->update([
             'record' => 1,
@@ -49,10 +50,11 @@ class RecordController extends Controller
 
         return redirect(route('dashboard'));
     }
+
     public function viewMyRecords($id)
     {
         $records = Record::where('user_id', $id)->get();
-        return view('myRecords', ['records' => $records]);
+        return view('user.my_records', ['records' => $records]);
     }
 
     public function deleteUserRecord($id)

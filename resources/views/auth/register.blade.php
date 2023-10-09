@@ -56,6 +56,7 @@
                     <input type="text" id="name" name="name" value="{{ old('name') }}" required autofocus
                            class="{{ $errors->has('name') ? 'text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500 border-red-300' : 'border-gray-300 focus:border-green-500 focus:ring-green-500 placeholder:text-gray-400' }} w-full rounded-md pl-10 text-sm"
                            placeholder="John Doe"/>
+                           placeholder="John Doe"/>
                     @error('name')
                     <div class="absolute inset-y-0 right-0 flex items-center pr-3">
                         <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"

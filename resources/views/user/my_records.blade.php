@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="../../resources/css/app.css" rel="stylesheet"/>
-    <title>Admin</title>
+    <link href="../../css/app.css" rel="stylesheet"/>
+    <title>My records</title>
     <style>
         table {
             font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
@@ -84,13 +84,9 @@
         </form>
     </div>
 </header>
-{{--<svg class="fixed bottom-0 fill-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">--}}
-{{--    <path fill-opacity="1"--}}
-{{--          d="M0,224L48,186.7C96,149,192,75,288,74.7C384,75,480,149,576,160C672,171,768,117,864,101.3C960,85,1056,107,1152,144C1248,181,1344,235,1392,261.3L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>--}}
-{{--</svg>--}}
 <main>
     <div class="m-6 mb-12 rounded-xl p-6 shadow-xl sm:p-10">
-        <h1 class="text-3xl font-semibold">Admin</h1>
+        <h1 class="text-3xl font-semibold">My records</h1>
         <div class="text">
             <svg class="mx-auto h-12 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                  stroke-width="1.5" stroke="currentColor">
@@ -105,32 +101,24 @@
     <div class="text">
         <table>
             <tr>
-                <th>ID</th>
+                <th>Doctor id</th>
                 <th>Date</th>
                 <th>Time</th>
             </tr>
             <pre>
                 @foreach($records as $record)
-            <tr>
-                <td>{{$record['id']}}</td>
+                    <tr>
+
+                <td>{{$record['doctor_id']}}</td>
                 <td>{{$record['date']}}</td>
                 <td>{{$record['time']}}</td>
                 <td><a>Update</a></td>
-                <td><a href="{{route('deleteRecord', ['id' => $record['id']])}}">Delete</a></td>
-                {{$record['doctor_id']}}
+                <td><a href="{{route('deleteUserRecord', ['id' => $record['id']])}}">Delete</a></td>
                 @endforeach
             </tr>
         </pre>
         </table>
-        <h1>Add new Record</h1>
-        <form action="{{route('createRecord')}}" method="post">
-            @csrf
-            <input type="hidden" name="id" value="{{$id}}">
-            <p>Date</p>
-            <input type="date" name="date">
-            <p>Time</p>
-            <input type="time" name="time"><br>
-            <button type="submit">add</button>
+
         </form>
     </div>
 </main>

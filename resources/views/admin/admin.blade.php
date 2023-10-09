@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="../../resources/css/app.css" rel="stylesheet"/>
+    <link href="../../css/app.css" rel="stylesheet"/>
     <title>Admin</title>
     <style>
         table {
@@ -128,11 +128,20 @@
         <form action="{{route('createDoctor')}}" method="post">
             @csrf
             <p>name</p>
-            <input type="text" name="name">
+            <input type="text" name="name" id="name" ><br>
+            @error('name')
+            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
             <p>surname</p>
-            <input type="text" name="surname">
+            <input type="text" name="surname" id="surname"><br>
+            @error('surname')
+            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
             <p>experience</p>
-            <input type="text" name="experience"> <br>
+            <input type="text" name="experience" id="experience"> <br>
+            @error('experience')
+            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
             <button type="submit">add</button>
         </form>
     </div>

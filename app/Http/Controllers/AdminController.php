@@ -4,44 +4,57 @@ namespace App\Http\Controllers;
 
 use App\Models\Doctor;
 
-use App\Models\Record;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
 
-    public function viewUpdate($id){
+    public function viewUpdate($id)
+    {
         $doctor = Doctor::find($id);
-        return view('updateDoctor',['doctor' => $doctor]);
+
+        return view('admin.update_doctor',
+            ['doctor' => $doctor]);
     }
 
-    public function view(){
+    public function view()
+    {
         $doctors = Doctor::all();
-        return view('admin', ['doctors' => $doctors]);
+
+        return view('admin.admin',
+            ['doctors' => $doctors]);
     }
 
-    public function createDoctor(Request $request){
+    public function createDoctor(\App\Http\Requests\DoctorRequest $request)
+    {
+        $doctor = $request->validated();
         Doctor::create([
-            'name' => $request->get('name'),
-            'surname' => $request->get('surname'),
-            'experience' => $request->get('experience')
+            'name' => $doctor['name'],
+            'surname' => $doctor['surname'],
+            'experience' => $doctor['experience']
         ]);
+
         return redirect(route('admin'));
     }
 
-    public function  deleteDoctor($id){
+    public function deleteDoctor($id)
+    {
 
         Doctor::find($id)->delete();
         return redirect(route('admin'));
 
     }
-    public function  update(){
-        $id = $_POST['id'];
+
+    public function update(\App\Http\Requests\DoctorRequest $request, $id)
+    {
+        $doctor = $request->validated();
+
         Doctor::find($id)->update([
-            'name' => $_POST['name'],
-            'surname' => $_POST['surname'],
-            'experience' => $_POST['experience'],
+            'name' => $doctor['name'],
+            'surname' => $doctor['surname'],
+            'experience' => $doctor['experience']
         ]);
+
         return redirect(route('admin'));
     }
 }

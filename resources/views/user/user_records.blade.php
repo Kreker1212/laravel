@@ -5,9 +5,59 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="../../resources/css/app.css" rel="stylesheet"/>
-    <title>Admin</title>
+    <link href="../../css/app.css" rel="stylesheet"/>
+    <title>User</title>
     <style>
+        table {
+            font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+            font-size: 14px;
+            border-radius: 10px;
+            border-spacing: 0;
+            text-align: center;
+        }
+
+        th {
+            background: #009d11;
+            color: white;
+            text-shadow: 0 1px 1px #2D2020;
+            padding: 10px 20px;
+        }
+
+        th, td {
+            border-style: solid;
+            border-width: 0 1px 1px 0;
+            border-color: white;
+        }
+
+        th:first-child, td:first-child {
+            text-align: left;
+        }
+
+        th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        th:last-child {
+            border-top-right-radius: 10px;
+            border-right: none;
+        }
+
+        td {
+            padding: 10px 20px;
+            background: #939393;
+        }
+
+        tr:last-child td:first-child {
+            border-radius: 0 0 0 10px;
+        }
+
+        tr:last-child td:last-child {
+            border-radius: 0 0 10px 0;
+        }
+
+        tr td:last-child {
+            border-right: none;
+        }
 
         .text {
             text-align: center;
@@ -34,13 +84,9 @@
         </form>
     </div>
 </header>
-{{--<svg class="fixed bottom-0 fill-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">--}}
-{{--    <path fill-opacity="1"--}}
-{{--          d="M0,224L48,186.7C96,149,192,75,288,74.7C384,75,480,149,576,160C672,171,768,117,864,101.3C960,85,1056,107,1152,144C1248,181,1344,235,1392,261.3L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>--}}
-{{--</svg>--}}
 <main>
     <div class="m-6 mb-12 rounded-xl p-6 shadow-xl sm:p-10">
-        <h1 class="text-3xl font-semibold">Admin</h1>
+        <h1 class="text-3xl font-semibold">User</h1>
         <div class="text">
             <svg class="mx-auto h-12 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                  stroke-width="1.5" stroke="currentColor">
@@ -49,22 +95,29 @@
             </svg>
 
             <p>
-            <h1 class="text-3xl font-semibold">{{auth()->user()->name}}</h1> </p>
+            <h1 class="text-3xl font-semibold">Records</h1> </p>
         </div>
     </div>
     <div class="text">
+        <table>
+            <tr>
+                <th>Doctor id</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+            <pre>
+                @foreach($records as $record)
+            <tr>
 
-        <h1>Update Doctor</h1>
-        <form action="{{route('updateDoctor')}}" method="post">
-            @csrf
-            <input type="hidden" name="id" value="{{$doctor['id']}}">
-            <p>name</p>
-            <input type="text" name="name" value="{{$doctor['name']}}">
-            <p>surname</p>
-            <input type="text" name="surname" value="{{$doctor['surname']}}">
-            <p>experience</p>
-            <input type="text" name="experience" value="{{$doctor['experience']}}"> <br>
-            <button type="submit">add</button>
+                <td>{{$record['doctor_id']}}</td>
+                <td>{{$record['date']}}</td>
+                <td>{{$record['time']}}</td>
+                <td><a href="{{route('chooseRecord', ['user_id' => auth()->user()->id, 'id' => $record['id']])}}">Choose</a></td>
+                @endforeach
+            </tr>
+        </pre>
+        </table>
+
         </form>
     </div>
 </main>
