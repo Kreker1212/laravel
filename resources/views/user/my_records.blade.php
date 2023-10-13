@@ -113,7 +113,13 @@
                 <td>{{$record['date']}}</td>
                 <td>{{$record['time']}}</td>
                 <td><a>Update</a></td>
-                <td><a href="{{route('deleteUserRecord', ['id' => $record['id']])}}">Delete</a></td>
+                <td><form method="POST" action="{{route('record.delete.user', ['id' => $record['id']])}}">
+                        @csrf
+                        {{ method_field('DELETE') }}
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-danger delete-record" value="Delete">
+                        </div>
+                </form></td>
                 @endforeach
             </tr>
         </pre>

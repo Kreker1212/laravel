@@ -22,12 +22,12 @@ class RecordController extends Controller
             ['records' => $records]);
     }
 
-    public function createRecord(Request $request)
+    public function createRecord(Request $request, $id)
     {
         Record::create([
             'record' => 0,
             'user_id' => 0,
-            'doctor_id' => $request->get('id'),
+            'doctor_id' => $id,
             'date' => $request->get('date'),
             'time' => $request->get('time'),
         ]);

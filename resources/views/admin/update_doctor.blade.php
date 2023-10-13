@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="../../css/app.css" rel="stylesheet"/>
-    <title>Admin</title>
+    <title>Update doctor</title>
     <style>
 
         .text {
@@ -36,7 +36,7 @@
 </header>
 <main>
     <div class="m-6 mb-12 rounded-xl p-6 shadow-xl sm:p-10">
-        <h1 class="text-3xl font-semibold">Admin</h1>
+        <h1 class="text-3xl font-semibold">Update doctor</h1>
         <div class="text">
             <svg class="mx-auto h-12 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                  stroke-width="1.5" stroke="currentColor">
@@ -51,15 +51,16 @@
     <div class="text">
 
         <h1>Update Doctor</h1>
-        <form action="{{route('updateDoctor', ['id' => $doctor['id']])}}" method="post">
+        <form action="{{route('doctor.update', ['id' => $doctor['id']])}}" method="post">
             @csrf
+            {{ method_field('PUT') }}
             <p>name</p>
             <input type="text" name="name" value="{{$doctor['name']}}">
             <p>surname</p>
             <input type="text" name="surname" value="{{$doctor['surname']}}">
             <p>experience</p>
             <input type="text" name="experience" value="{{$doctor['experience']}}"> <br>
-            <button type="submit">add</button>
+            <button type="submit">Update</button>
         </form>
     </div>
 </main>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\RecordController;
@@ -25,15 +26,15 @@ Route::view('/', 'welcome')->name('welcome');
 Route::get('/admin', [AdminController::class, 'view'])->name('admin');
 
 
-Route::middleware(Admin::class)->group(function () {
+Route::middleware(Admin::class)->prefix('admin')->group(function () {
     Route::get('/admin', [AdminController::class, 'view'])->name('admin');
-    Route::post('/create', [AdminController::class, 'createDoctor'])->name('createDoctor')->prefix('admin');
-    Route::get('/deleteDoctor/{id}', [AdminController::class, 'deleteDoctor'])->name('deleteDoctor')->prefix('admin');
-    Route::get('/updateDoctorView/{id}', [AdminController::class, 'viewUpdate'])->name('viewUpdate')->prefix('admin');
-    Route::post('/updateDoctor/{id}', [AdminController::class, 'update'])->name('updateDoctor')->prefix('admin');
-    Route::get('/records/{id}', [RecordController::class, 'viewAdminRecords'])->name('viewRecords')->prefix('admin');
-    Route::post('/createRecord', [RecordController::class, 'createRecord'])->name('createRecord')->prefix('admin');
-    Route::get('/deleteRecord/{id}', [RecordController::class, 'deleteRecord'])->name('deleteRecord')->prefix('admin');
+    Route::post('/admin', [AdminController::class, 'createDoctor'])->name('doctor.create');
+    Route::delete('/doctors/{id}', [AdminController::class, 'deleteDoctor'])->name('doctor.delete');
+    Route::get('/doctors/{id}', [AdminController::class, 'viewUpdate'])->name('doctor.update.view');
+    Route::put('/doctors/{id}', [AdminController::class, 'update'])->name('doctor.update');
+    Route::get('/records/{id}', [RecordController::class, 'viewAdminRecords'])->name('view.records');
+    Route::post('/records/{id}', [RecordController::class, 'createRecord'])->name('record.create');
+    Route::delete('/records/{id}', [RecordController::class, 'deleteRecord'])->name('record.delete');
 });
 
 
@@ -47,10 +48,10 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/userRecord', [RecordController::class, 'viewUserRecords'])->name('viewUserRecords');
-    Route::get('/chooseRecord/{user_id}/{id}', [RecordController::class, 'chooseRecord'])->name('chooseRecord');
-    Route::get('/user/records/{id}', [RecordController::class, 'viewMyRecords'])->name('viewMyRecords');
-    Route::get('/deleteRecord/{id}', [RecordController::class, 'deleteUserRecord'])->name('deleteUserRecord');
+    Route::get('/records', [RecordController::class, 'viewUserRecords'])->name('view.records.user');
+    Route::get('/records/{user_id}/{id}', [RecordController::class, 'chooseRecord'])->name('record.choose');
+    Route::get('/records/{id}', [RecordController::class, 'viewMyRecords'])->name('view.my.records');
+    Route::delete('/records/{id}', [RecordController::class, 'deleteUserRecord'])->name('record.delete.user');
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 
     Route::view('/dashboard', 'user.dashboard')->name('dashboard');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DoctorRequest;
 use App\Models\Doctor;
 
 use Illuminate\Http\Request;
@@ -25,24 +26,25 @@ class AdminController extends Controller
             ['doctors' => $doctors]);
     }
 
-    public function createDoctor(\App\Http\Requests\DoctorRequest $request)
+    public function createDoctor(DoctorRequest $request)
     {
         $doctor = $request->validated();
+
         Doctor::create([
             'name' => $doctor['name'],
             'surname' => $doctor['surname'],
             'experience' => $doctor['experience']
         ]);
 
-        return redirect(route('admin'));
+        return response()->json($doctor);
     }
 
     public function deleteDoctor($id)
     {
 
         Doctor::find($id)->delete();
-        return redirect(route('admin'));
 
+        return response()->json(['status' => 'ok']);
     }
 
     public function update(\App\Http\Requests\DoctorRequest $request, $id)

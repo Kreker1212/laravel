@@ -51,10 +51,10 @@
         </div>
     </div>
     <div class="m-6 mb-12 rounded-xl p-6 shadow-xl sm:p-10 text">
-        <p><a href="{{route('viewUserRecords')}}"
+        <p><a href="{{route('view.records.user')}}"
               class="rounded-md bg-green-600 py-2 px-4 font-semibold text-white shadow-lg transition duration-150 ease-in-out hover:bg-green-700 hover:shadow-xl focus:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Запись
                 на приём</a>
-            <a href="{{route('viewMyRecords', ['id' => auth()->user()->id])}}"
+            <a href="{{route('view.my.records', ['id' => auth()->user()->id])}}"
                class="rounded-md bg-green-600 py-2 px-4 font-semibold text-white shadow-lg transition duration-150 ease-in-out hover:bg-green-700 hover:shadow-xl focus:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Мои
                 записи</a></p>
     </div>

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="../../css/app.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <title>Admin</title>
     <style>
         table {
@@ -84,10 +84,6 @@
         </form>
     </div>
 </header>
-{{--<svg class="fixed bottom-0 fill-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">--}}
-{{--    <path fill-opacity="1"--}}
-{{--          d="M0,224L48,186.7C96,149,192,75,288,74.7C384,75,480,149,576,160C672,171,768,117,864,101.3C960,85,1056,107,1152,144C1248,181,1344,235,1392,261.3L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>--}}
-{{--</svg>--}}
 <main>
     <div class="m-6 mb-12 rounded-xl p-6 shadow-xl sm:p-10">
         <h1 class="text-3xl font-semibold">Admin</h1>
@@ -112,20 +108,43 @@
             </tr>
             <pre>
                 @foreach($doctors as $doctor)
-            <tr>
+            <tr id="{{$doctor['id']}}">
                 <td>{{$doctor['id']}}</td>
                 <td>{{$doctor['name']}}</td>
                 <td>{{$doctor['surname']}}</td>
                 <td>{{$doctor['experience']}}</td>
-                <td><a href="{{route('viewUpdate', ['id' => $doctor['id']])}}">Update</a></td>
-                <td><a href="{{route('deleteDoctor', ['id' => $doctor['id']])}}">Delete</a></td>
-                <td><a href="{{route('viewRecords', ['id' => $doctor['id']])}}">Date</a></td>
+                <td><a href="{{route('doctor.update.view', ['id' => $doctor['id']])}}">Update</a></td>
+                <td><form id="delete-{{$doctor['id']}}">
+                        <input type="hidden" name="id" id="id" value="{{$doctor['id']}}">
+                            <button type="submit">delete</button>
+                </form></td>
+                <td><a href="{{route('view.records', ['id' => $doctor['id']])}}">Date</a></td>
             </tr>
+                    <script>
+                        $('#delete-{{$doctor['id']}}').on('submit',function(event){
+                            event.preventDefault();
+
+                            $.ajax({
+                                url:'/admin/doctors/{{$doctor['id']}}',
+                                type:"DELETE",
+                                data:{
+                                    "_token": "{{ csrf_token() }}",
+                                },
+                                success:function(response){
+                                    console.log(response.status);
+                                    if(response.status == 'ok'){
+                                  $('#{{$doctor['id']}}').remove()
+                                    }
+                                },
+                            });
+
+                        });
+                    </script>
                 @endforeach
         </pre>
         </table>
         <h1>Add new Doctor</h1>
-        <form action="{{route('createDoctor')}}" method="post">
+        <form id="createForm">
             @csrf
             <p>name</p>
             <input type="text" name="name" id="name" ><br>
@@ -144,6 +163,30 @@
             @enderror
             <button type="submit">add</button>
         </form>
+
+        <script>
+
+            $('#createForm').on('submit',function(event){
+                event.preventDefault();
+
+                let name = $('#name').val();
+                let surname = $('#surname').val();
+                let experience = $('#experience').val();
+                $.ajax({
+                    url: "/admin/admin",
+                    type:"POST",
+                    data:{
+                        "_token": "{{ csrf_token() }}",
+                        name:name,
+                        surname:surname,
+                        experience:experience,
+                    },
+                    success:function(response){
+                        console.log(response);
+                    },
+                });
+            });
+        </script>
     </div>
 </main>
 

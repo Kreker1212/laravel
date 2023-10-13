@@ -112,7 +112,7 @@
                 <td>{{$record['doctor_id']}}</td>
                 <td>{{$record['date']}}</td>
                 <td>{{$record['time']}}</td>
-                <td><a href="{{route('chooseRecord', ['user_id' => auth()->user()->id, 'id' => $record['id']])}}">Choose</a></td>
+                <td><a href="{{route('record.choose', ['user_id' => auth()->user()->id, 'id' => $record['id']])}}">Choose</a></td>
                 @endforeach
             </tr>
         </pre>
