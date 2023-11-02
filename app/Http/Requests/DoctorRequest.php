@@ -22,9 +22,9 @@ class DoctorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'surname' => 'required|string',
-            'experience' => 'required|integer'
+            'name' => 'string',
+            'surname' => 'string',
+            'experience' => 'integer'
         ];
     }
 }

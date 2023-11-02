@@ -99,65 +99,75 @@
         </div>
     </div>
     <div class="text">
-        <table>
-            <tr>
-                <th>id</th>
-                <th>name</th>
-                <th>surname</th>
-                <th>experience</th>
-            </tr>
-            <pre>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>surname</th>
+                    <th>experience</th>
+                </tr>
+            </thead>
+            <tbody>
                 @foreach($doctors as $doctor)
-            <tr id="{{$doctor['id']}}">
-                <td>{{$doctor['id']}}</td>
-                <td>{{$doctor['name']}}</td>
-                <td>{{$doctor['surname']}}</td>
-                <td>{{$doctor['experience']}}</td>
-                <td><a href="{{route('doctor.update.view', ['id' => $doctor['id']])}}">Update</a></td>
-                <td><form id="delete-{{$doctor['id']}}">
-                        <input type="hidden" name="id" id="id" value="{{$doctor['id']}}">
-                            <button type="submit">delete</button>
-                </form></td>
-                <td><a href="{{route('view.records', ['id' => $doctor['id']])}}">Date</a></td>
-            </tr>
+                    <tr id="{{$doctor['id']}}">
+                        <td>{{$doctor['id']}}</td>
+                        <td id="name" class="dd">{{$doctor['name']}}</td>
+                        <td id="surname" class="dd">{{$doctor['surname']}}</td>
+                        <td id="experience" class="dd">{{$doctor['experience']}}</td>
+                        <th>
+                            <form id="update-{{$doctor['id']}}">
+                                <input type="hidden" name="id" id="id" value="{{$doctor['id']}}">
+                                <button type="submit">Save</button>
+                            </form>
+                        </th>
+                        <th>
+                            <form id="delete-{{$doctor['id']}}">
+                                <input type="hidden" name="id" id="id" value="{{$doctor['id']}}">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </th>
+                        <th>
+                            <a href="{{route('view.records', ['id' => $doctor['id']])}}">Date</a>
+                        </th>
+                    </tr>
                     <script>
-                        $('#delete-{{$doctor['id']}}').on('submit',function(event){
+                        $('#delete-{{$doctor['id']}}').on('submit', function (event) {
                             event.preventDefault();
 
                             $.ajax({
-                                url:'/admin/doctors/{{$doctor['id']}}',
-                                type:"DELETE",
-                                data:{
+                                url: '/admin/doctors/{{$doctor['id']}}',
+                                type: "DELETE",
+                                data: {
                                     "_token": "{{ csrf_token() }}",
                                 },
-                                success:function(response){
+                                success: function (response) {
                                     console.log(response.status);
-                                    if(response.status == 'ok'){
-                                  $('#{{$doctor['id']}}').remove()
+                                    if (response.status == 'ok') {
+                                        $('#{{$doctor['id']}}').remove()
                                     }
                                 },
                             });
-
                         });
                     </script>
                 @endforeach
-        </pre>
+            </tbody>
         </table>
         <h1>Add new Doctor</h1>
         <form id="createForm">
             @csrf
             <p>name</p>
-            <input type="text" name="name" id="name" ><br>
+            <input type="text" name="name"><br>
             @error('name')
             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
             @enderror
             <p>surname</p>
-            <input type="text" name="surname" id="surname"><br>
+            <input type="text" name="surname"><br>
             @error('surname')
             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
             @enderror
             <p>experience</p>
-            <input type="text" name="experience" id="experience"> <br>
+            <input type="text" name="experience"> <br>
             @error('experience')
             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -166,29 +176,93 @@
 
         <script>
 
-            $('#createForm').on('submit',function(event){
+            $('#createForm').on('submit', function (event) {
                 event.preventDefault();
 
-                let name = $('#name').val();
-                let surname = $('#surname').val();
-                let experience = $('#experience').val();
+                let name = $("input[name*='name']").val();
+                let surname = $("input[name*='surname']").val();
+                let experience = $("input[name*='experience']").val();
+
                 $.ajax({
                     url: "/admin/admin",
-                    type:"POST",
-                    data:{
+                    type: "POST",
+                    data: {
                         "_token": "{{ csrf_token() }}",
-                        name:name,
-                        surname:surname,
-                        experience:experience,
+                        name: name,
+                        surname: surname,
+                        experience: experience,
                     },
-                    success:function(response){
+                    success: function (response) {
                         console.log(response);
+                        let tbodyRef = document.getElementById('table').getElementsByTagName('tbody')[0];
+
+
+                        // Insert a row at the end of table
+                        let newRow = tbodyRef.insertRow();
+
+                        // Insert a cell at the end of the row
+                        let id = newRow.insertCell();
+                        let name = newRow.insertCell();
+                        let surname = newRow.insertCell();
+                        let experience = newRow.insertCell();
+
+                        // Append a text node to the cell
+                        let idText = document.createTextNode(response.id);
+                        let nameText = document.createTextNode(response.name);
+                        let surnameText = document.createTextNode(response.surname);
+                        let experienceText = document.createTextNode(response.experience);
+
+
+                        id.appendChild(idText);
+                        name.appendChild(nameText);
+                        surname.appendChild(surnameText);
+                        experience.appendChild(experienceText);
                     },
                 });
             });
         </script>
     </div>
 </main>
+
+<script>
+
+    let tds = document.querySelectorAll('.dd');
+
+    for (let i = 0; i < tds.length; i++) {
+        tds[i].addEventListener('click', function func() {
+            let input = document.createElement('input');
+            input.value = this.innerHTML;
+            this.innerHTML = '';
+            this.appendChild(input);
+
+            let td = this;
+            input.addEventListener('blur', function() {
+                td.innerHTML = this.value;
+
+                let fieldName = td.id
+                let doctorId = td.parentNode.id
+
+                console.log(fieldName, doctorId, {[fieldName] : this.value,});
+
+                $.ajax({
+                    url: '/admin/doctors/' + doctorId,
+                    type: "PUT",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        [fieldName] : this.value,
+                    },
+                    success: function (response){
+                        console.log('ок')
+
+                    }
+                });
+                td.addEventListener('click', func);
+            });
+
+            this.removeEventListener('click', func);
+        });
+    }
+</script>
 
 </body>
 </html>
