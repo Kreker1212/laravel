@@ -7,20 +7,18 @@ use App\Models\Doctor;
 
 class AdminController extends Controller
 {
-    public function viewUpdate($id)
+    public function viewUpdate(int $id)
     {
         $doctor = Doctor::find($id);
 
-        return view('admin.update_doctor',
-            ['doctor' => $doctor]);
+        return view('admin.update_doctor', ['doctor' => $doctor]);
     }
 
     public function view()
     {
         $doctors = Doctor::all();
 
-        return view('admin.admin',
-            ['doctors' => $doctors]);
+        return view('admin.admin', ['doctors' => $doctors]);
     }
 
     public function createDoctor(DoctorRequest $request)
@@ -36,7 +34,7 @@ class AdminController extends Controller
         return response()->json($doctor);
     }
 
-    public function deleteDoctor($id)
+    public function deleteDoctor(int $id)
     {
 
         Doctor::find($id)->delete();
@@ -44,7 +42,7 @@ class AdminController extends Controller
         return response()->json(['status' => 'ok']);
     }
 
-    public function update(DoctorRequest $request, $id)
+    public function update(DoctorRequest $request, int $id): void
     {
         $doctor = $request->validated();
 
@@ -56,7 +54,7 @@ class AdminController extends Controller
 
         if (isset($doctor['surname'])) {
             Doctor::find($id)->update([
-                'surname' => $doctor['surname'],
+                'surname' => $doctor['surname']
             ]);
         }
 

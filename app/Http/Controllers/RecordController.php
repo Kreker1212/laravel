@@ -2,31 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DoctorRequest;
 use App\Models\Record;
-use Illuminate\Http\Request;
 
 class RecordController extends Controller
 {
 
-    public function viewAdminRecords($id)
+    public function viewAdminRecords(int $id)
     {
         $records = Record::where('doctor_id', $id)->get();
-        return view('admin.admin_records',
-            ['records' => $records, 'id' => $id]);
+        return view('admin.admin_records', ['records' => $records, 'id' => $id]);
     }
 
     public function viewUserRecords()
     {
-        $records = Record::where('user_id', 0)->get();
-        return view('user.user_records',
-            ['records' => $records]);
+        $records = Record::where('user_id', null)->get();
+        return view('user.user_records', ['records' => $records]);
     }
 
-    public function createRecord(Request $request, $id)
+    public function createRecord( DoctorRequest $request,int $id)
     {
         Record::create([
-            'record' => 0,
-            'user_id' => 0,
+            'user_id' => NULL,
             'doctor_id' => $id,
             'date' => $request->get('date'),
             'time' => $request->get('time'),
@@ -41,27 +38,25 @@ class RecordController extends Controller
         return redirect(route('admin'));
     }
 
-    public function chooseRecord($user_id, $id)
+    public function chooseRecord(int $user_id, int $id)
     {
         Record::find($id)->update([
-            'record' => 1,
             'user_id' => $user_id
         ]);
 
         return redirect(route('dashboard'));
     }
 
-    public function viewMyRecords($id)
+    public function viewMyRecords(int $id)
     {
         $records = Record::where('user_id', $id)->get();
         return view('user.my_records', ['records' => $records]);
     }
 
-    public function deleteUserRecord($id)
+    public function deleteUserRecord(int $id)
     {
         Record::find($id)->update([
-            'record' => 0,
-            'user_id' => 0
+            'user_id' => null
         ]);
 
         return redirect(route('dashboard'));
