@@ -5,17 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DoctorRequest;
 use App\Models\Doctor;
 
-use App\Models\Record;
-use Illuminate\Http\Request;
-
 class AdminController extends Controller
 {
-
-    public function viewJs()
-    {
-      return view('js');
-    }
-
     public function viewUpdate($id)
     {
         $doctor = Doctor::find($id);
@@ -42,9 +33,6 @@ class AdminController extends Controller
             'experience' => $dataDoctor['experience']
         ]);
 
-
-//        $doctor = Doctor::where('name', $dataDoctor['name'])->firstOrCreate();
-
         return response()->json($doctor);
     }
 
@@ -64,20 +52,18 @@ class AdminController extends Controller
             Doctor::find($id)->update([
                 'name' => $doctor['name'],
             ]);
-
-
         }
+
         if (isset($doctor['surname'])) {
             Doctor::find($id)->update([
                 'surname' => $doctor['surname'],
             ]);
-
         }
+
         if (isset($doctor['experience'])) {
             Doctor::find($id)->update([
                 'experience' => $doctor['experience']
             ]);
-
         }
     }
 }

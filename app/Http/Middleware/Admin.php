@@ -16,11 +16,11 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user() == null) {
+        if(Auth::user() === null) {
             return redirect(route('dashboard'));
         }
 
-        if(Auth::user()->admin_is == 1) {
+        if(Auth::user()->admin_is === 1) {
             return $next($request);
         }
 

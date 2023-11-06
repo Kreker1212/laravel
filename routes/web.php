@@ -24,8 +24,6 @@ use App\Http\Middleware\Admin;
 Route::view('/', 'welcome')->name('welcome');
 
 Route::get('/admin', [AdminController::class, 'view'])->name('admin');
-Route::get('/js', [AdminController::class, 'viewJs'])->name('js');
-
 
 Route::middleware(Admin::class)->prefix('admin')->group(function () {
     Route::get('/admin', [AdminController::class, 'view'])->name('admin');
