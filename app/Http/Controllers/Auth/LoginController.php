@@ -18,7 +18,7 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function store(LoginRequest $request): redirectResponse
+    public function store(LoginRequest $request): RedirectResponse
     {
         $credentials = $request->validated();
 
@@ -31,7 +31,7 @@ class LoginController extends Controller
             'email' => 'These credentials do not math our records.']);
     }
 
-    public function destroy(Request $request): redirectResponse
+    public function destroy(Request $request): RedirectResponse
     {
         Auth::logout();
 

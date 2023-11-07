@@ -33,7 +33,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/records', [RecordController::class, 'viewUserRecords'])->name('view.records.user');
-    Route::get('/records/{user_id}/{id}', [RecordController::class, 'chooseRecord'])->name('record.choose');
+    Route::get('/records/{userId}/{id}', [RecordController::class, 'chooseRecord'])->name('record.choose');
     Route::get('/records/{id}', [RecordController::class, 'viewMyRecords'])->name('view.my.records');
     Route::delete('/records/{id}', [RecordController::class, 'deleteUserRecord'])->name('record.delete.user');
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');

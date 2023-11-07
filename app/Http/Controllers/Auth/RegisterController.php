@@ -16,7 +16,7 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    public function store(RegisterRequest $request): redirector
+    public function store(RegisterRequest $request): Redirector
     {
         $user = $request->validated();
 
