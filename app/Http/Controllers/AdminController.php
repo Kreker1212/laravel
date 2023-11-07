@@ -4,24 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DoctorRequest;
 use App\Models\Doctor;
+use Illuminate\Http\JsonResponse;
 
 class AdminController extends Controller
 {
-    public function viewUpdate(int $id)
+
+    public function viewUpdate(int $id): object
     {
         $doctor = Doctor::find($id);
 
         return view('admin.update_doctor', ['doctor' => $doctor]);
     }
 
-    public function view()
+    public function view(): object
     {
         $doctors = Doctor::all();
 
         return view('admin.admin', ['doctors' => $doctors]);
     }
 
-    public function createDoctor(DoctorRequest $request)
+    public function createDoctor(DoctorRequest $request): jsonResponse
     {
         $dataDoctor = $request->validated();
 
@@ -34,9 +36,8 @@ class AdminController extends Controller
         return response()->json($doctor);
     }
 
-    public function deleteDoctor(int $id)
+    public function deleteDoctor(int $id): jsonResponse
     {
-
         Doctor::find($id)->delete();
 
         return response()->json(['status' => 'ok']);

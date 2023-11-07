@@ -29,7 +29,6 @@
             <pre>
                 @foreach($records as $record)
                     <tr>
-
                 <td>{{$record['doctor_id']}}</td>
                 <td>{{$record['date']}}</td>
                 <td>{{$record['time']}}</td>
@@ -40,14 +39,12 @@
                         <div class="form-group">
                             <input type="submit" class="btn btn-danger delete-record" value="Delete">
                         </div>
-                </form></td>
+                    </form>
+                </td>
                 @endforeach
             </tr>
         </pre>
         </table>
-
-        </form>
     </div>
 </main>
-
 @endsection

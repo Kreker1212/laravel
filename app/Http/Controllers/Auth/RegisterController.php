@@ -5,17 +5,18 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    public function create()
+    public function create(): view
     {
         return view('auth.register');
     }
 
-    public function store( RegisterRequest $request)
+    public function store(RegisterRequest $request): redirector
     {
         $user = $request->validated();
 
@@ -24,8 +25,9 @@ class RegisterController extends Controller
             'email' => $user['email'],
             'password' => $user['password']
         ]);
+
         Auth::login($user);
 
-        return redirect('/dashboard');
+        return redirect(route('dashboard'));
     }
 }

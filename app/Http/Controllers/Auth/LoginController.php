@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Providers\RouteServiceProvider;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -17,7 +18,7 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function store(LoginRequest $request)
+    public function store(LoginRequest $request): redirectResponse
     {
         $credentials = $request->validated();
 
@@ -30,7 +31,7 @@ class LoginController extends Controller
             'email' => 'These credentials do not math our records.']);
     }
 
-    public function destroy(Request $request)
+    public function destroy(Request $request): redirectResponse
     {
         Auth::logout();
 

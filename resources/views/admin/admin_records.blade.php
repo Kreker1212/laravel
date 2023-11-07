@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-<body class="min-h-screen bg-gray-50 bg-[url('/wave.svg')] bg-fixed bg-bottom bg-no-repeat">
 <main>
     <div class="m-6 mb-12 rounded-xl p-6 shadow-xl sm:p-10">
         <h1 class="text-3xl font-semibold">Admin</h1>
@@ -56,6 +55,4 @@
         </form>
     </div>
 </main>
-
-</body>
 @endsection

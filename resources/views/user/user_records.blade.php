@@ -26,21 +26,15 @@
                 <th>Date</th>
                 <th>Time</th>
             </tr>
-            <pre>
                 @foreach($records as $record)
             <tr>
-
                 <td>{{$record['doctor_id']}}</td>
                 <td>{{$record['date']}}</td>
                 <td>{{$record['time']}}</td>
                 <td><a href="{{route('record.choose', ['user_id' => auth()->user()->id, 'id' => $record['id']])}}">Choose</a></td>
                 @endforeach
             </tr>
-        </pre>
         </table>
-
-        </form>
     </div>
 </main>
 @endsection
-
